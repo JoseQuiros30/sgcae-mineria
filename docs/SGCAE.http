@@ -1,0 +1,58 @@
+@host = http://localhost:5080
+
+### 1. Consultar las tres sedes
+GET {{host}}/api/sedes
+
+### 2. Registrar empleado
+POST {{host}}/api/empleados
+Content-Type: application/json
+
+{
+  "identificacion": "1032456789",
+  "nombres": "Laura",
+  "apellidos": "Ramírez",
+  "correo": "laura.ramirez@minera.com",
+  "cargo": "Operadora de maquinaria",
+  "areaOrganizacional": "Operaciones mina"
+}
+
+### Copie aquí el id del empleado retornado
+@empleadoId = 00000000-0000-0000-0000-000000000000
+
+### 3. Asignar credencial
+POST {{host}}/api/credenciales
+Content-Type: application/json
+
+{
+  "codigo": "TARJETA-0001",
+  "empleadoId": "{{empleadoId}}"
+}
+
+### 4. Entrada autorizada por Guayabito
+POST {{host}}/api/accesos
+Content-Type: application/json
+
+{
+  "codigoCredencial": "TARJETA-0001",
+  "codigoPuntoAcceso": "GYA-PORTERIA",
+  "tipo": "Entrada"
+}
+
+### 5. Intento rechazado que también queda auditado
+POST {{host}}/api/accesos
+Content-Type: application/json
+
+{
+  "codigoCredencial": "NO-EXISTE",
+  "codigoPuntoAcceso": "GUA-PORTERIA",
+  "tipo": "Entrada"
+}
+
+### 6. Historial paginado
+GET {{host}}/api/accesos/historial?pagina=1&tamanoPagina=20
+
+### 7. Historial rechazado
+GET {{host}}/api/accesos/historial?resultado=Rechazado&pagina=1&tamanoPagina=20
+
+### 8. Puntos de acceso habilitados de Mina Guayabito
+GET {{host}}/api/puntos-acceso?sedeId=10000000-0000-0000-0000-000000000001&habilitado=true

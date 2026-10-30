@@ -1,0 +1,24 @@
+name: Integracion continua
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - run: dotnet restore Sgcae.sln
+      - run: dotnet build Sgcae.sln --configuration Release --no-restore
+      - run: dotnet test Sgcae.sln --configuration Release --no-build --logger "trx;LogFileName=resultados.trx"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: resultados-pruebas
+          path: "**/TestResults/*.trx"
