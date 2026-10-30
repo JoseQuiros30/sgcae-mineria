@@ -1,5 +1,7 @@
 # SGCAE Minería
 
+Se trabaja con Docker porque mi equipo es Mac
+
 Backend REST para gestionar empleados, credenciales y accesos físicos de una empresa minera con tres sedes:
 
 - Mina Guayabito
@@ -179,6 +181,4 @@ docs/
 - Autenticación de operadores, permisos por rol, integración biométrica y reglas de autorización distintas por cargo/sede no forman parte de los requerimientos suministrados.
 - Los tiempos se almacenan en UTC; el cliente puede presentarlos en la zona `America/Bogota`.
 
-## Licencia
 
-Proyecto académico. Puede agregarse una licencia institucional según las condiciones de entrega.
